@@ -14,6 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 
@@ -23,7 +26,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
     private EditText title, description;
     private TextView date;
     QuestBase mData;
-//    DatabaseReference databaseQuests;
+    DatabaseReference databaseQuests;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         date = findViewById(R.id.date2);
         mData = QuestBase.getInstance();
 
-//        databaseQuests = FirebaseDatabase.getInstance().getReference("quests");
+        databaseQuests = FirebaseDatabase.getInstance().getReference("questLists");
 
         Calendar c = Calendar.getInstance();
         String currentDateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
@@ -63,9 +66,9 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
             QuestItem sending = new QuestItem(qTitle, qDesc, qDate, R.mipmap.ic_launcher_round);
             mData.add(sending);
 
-//            if(mData.getIdentification() != null){
-//                databaseQuests.child(mData.getIdentification).setValue(mData.getData());
-//            }
+            //if(mData.getIdentification() != null){
+                databaseQuests.child(mData.getIdentification()).setValue(mData.getData());
+            //}
 
             Intent intent = new Intent(this, MainActivity.class);
 //            intent.putExtra("created_quest", sending); //don't worry about this

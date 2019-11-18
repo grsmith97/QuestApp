@@ -10,12 +10,12 @@ public class QuestBase {
 
 
 
-    private int identification;
+    private String identification;
 
     private QuestBase(){
         mData = new ArrayList<>();
         logData = new ArrayList<>();
-        identification = 123456789; //testing id
+        identification = "123456789"; //testing id
     }
 
     private static QuestBase mQuestBase;
@@ -44,10 +44,10 @@ public class QuestBase {
     public QuestItem get(int position){
         return mData.get(position);
     }
-    public int getIdentification() {
+    public String getIdentification() {
         return identification;
     }
-    public void setIdentification(int identification) {
+    public void setIdentification(String identification) {
         this.identification = identification;
     }
 }
