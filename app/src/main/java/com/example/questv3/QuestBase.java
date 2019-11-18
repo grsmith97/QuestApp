@@ -8,9 +8,14 @@ public class QuestBase {
     private List<QuestItem> mData;
     private List<QuestItem> logData;
 
+
+
+    private int identification;
+
     private QuestBase(){
         mData = new ArrayList<>();
         logData = new ArrayList<>();
+        identification = 123456789; //testing id
     }
 
     private static QuestBase mQuestBase;
@@ -38,5 +43,11 @@ public class QuestBase {
     }
     public QuestItem get(int position){
         return mData.get(position);
+    }
+    public int getIdentification() {
+        return identification;
+    }
+    public void setIdentification(int identification) {
+        this.identification = identification;
     }
 }

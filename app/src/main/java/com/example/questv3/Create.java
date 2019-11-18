@@ -23,6 +23,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
     private EditText title, description;
     private TextView date;
     QuestBase mData;
+//    DatabaseReference databaseQuests;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         description = findViewById(R.id.editDescription);
         date = findViewById(R.id.date2);
         mData = QuestBase.getInstance();
+
+//        databaseQuests = FirebaseDatabase.getInstance().getReference("quests");
 
         Calendar c = Calendar.getInstance();
         String currentDateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
@@ -59,8 +62,13 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
             qDate = date.getText().toString();
             QuestItem sending = new QuestItem(qTitle, qDesc, qDate, R.mipmap.ic_launcher_round);
             mData.add(sending);
+
+//            if(mData.getIdentification() != null){
+//                databaseQuests.child(id).setValue(mData);
+//            }
+
             Intent intent = new Intent(this, MainActivity.class);
-//            intent.putExtra("created_quest", sending);
+//            intent.putExtra("created_quest", sending); //don't worry about this
             startActivity(intent);
         }
     }
