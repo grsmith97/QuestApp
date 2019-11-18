@@ -64,7 +64,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
             mData.add(sending);
 
 //            if(mData.getIdentification() != null){
-//                databaseQuests.child(mData.getIdentification).setValue(mData);
+//                databaseQuests.child(mData.getIdentification).setValue(mData.getData());
 //            }
 
             Intent intent = new Intent(this, MainActivity.class);
