@@ -28,7 +28,5 @@ public class ShowQuestActivity extends AppCompatActivity {
             date.setText(quest.getDate());
             Log.d(TAG, "onCreate: " + quest.toString());
         }
-
-
     }
 }
