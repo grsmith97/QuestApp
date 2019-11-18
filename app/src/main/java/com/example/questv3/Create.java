@@ -3,7 +3,6 @@ package com.example.questv3;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CancellationSignal;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,15 +46,20 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
     }
 
     public void submitQuest(View view) {
-        Log.d(TAG, "submitQuest: clicked");
-        String qTitle,qDesc,qDate;
-        qTitle = title.getText().toString();
-        qDesc = description.getText().toString();
-        qDate = date.getText().toString();
-        QuestItem sending = new QuestItem(qTitle,qDesc,qDate,R.mipmap.ic_launcher_round);
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("created_quest",sending);
-        startActivity(intent);
+        if(title.getText().toString().isEmpty()) {
+            title.setError("Required Field");
+        }
+        else {
+            Log.d(TAG, "submitQuest: clicked");
+            String qTitle, qDesc, qDate;
+            qTitle = title.getText().toString();
+            qDesc = description.getText().toString();
+            qDate = date.getText().toString();
+            QuestItem sending = new QuestItem(qTitle, qDesc, qDate, R.mipmap.ic_launcher_round);
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("created_quest", sending);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -65,7 +69,6 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String currentDateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
-        TextView tv = findViewById(R.id.date2);
-        tv.setText(currentDateString);
+        date.setText(currentDateString);
     }
 }

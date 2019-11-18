@@ -40,8 +40,8 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestViewHol
     public void onBindViewHolder(@NonNull QuestViewHolder holder, int position) {
 
         // Apply animations here
-        holder.imgUser.setAnimation(AnimationUtils.loadAnimation(mContext,R.anim.fade_trans_anim));
-        holder.container.setAnimation(AnimationUtils.loadAnimation(mContext,R.anim.fade_scale_anim));
+        holder.imgUser.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_trans_anim));
+        holder.container.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_scale_anim));
 
         // Bind data here
         holder.tv_title.setText(mData.get(position).getTitle());
