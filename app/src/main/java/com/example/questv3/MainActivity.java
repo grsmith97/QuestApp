@@ -97,20 +97,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_log) {
+        if (id == R.id.action_sign_out) {
 
         }
         else if(id == R.id.action_sign_in){
             Intent intent = new Intent(this,SignIn.class);
             startActivity(intent);
         }
-        else if(id == R.id.action_sign_out){
-
-        }
         else if(id == R.id.action_fake_quests){
-            mData.add(new QuestItem("Get Groceries","Milk, eggs, bread, lettuce, meat, cheese, rice, seasonings","20 October 2019", R.mipmap.ic_launcher_round));
-            mData.add(new QuestItem("Do Laundry","It's been 5 weeks now. Time to finally get it over with...","20 October 2019", R.mipmap.ic_launcher_round));
-            mData.add(new QuestItem("Meet with Taylor","She's got time between class, let's hang out.","20 October 2019", R.mipmap.ic_launcher_round));
+            mData.add(new QuestItem("Get Groceries","Milk, eggs, bread, lettuce, meat, cheese, rice, seasonings","20 October 2019", R.drawable.ic_ball_red));
+            mData.add(new QuestItem("Do Laundry","It's been 5 weeks now. Time to finally get it over with...","20 October 2019", R.drawable.ic_ball_blue));
+            mData.add(new QuestItem("Meet with Taylor","She's got time between class, let's hang out.","20 October 2019", R.drawable.ic_ball_green));
             mData.add(new QuestItem("Work Out","25 reps 3 sets Pull Ups\n25 reps 3 sets Push Ups\n25 reps 3 sets Crunches\n25 reps 3 sets Pike Press\n25 reps 3 sets Squats","20 October 2019", R.mipmap.ic_launcher_round));
             mData.add(new QuestItem("Study","Test coming up in CS403 on Wednesday","20 October 2019", R.mipmap.ic_launcher_round));
             mData.add(new QuestItem("Clean Room","No girl is gonna wanna come over to this mess. Better get to it.","20 October 2019", R.mipmap.ic_launcher_round));
@@ -119,7 +116,6 @@ public class MainActivity extends AppCompatActivity
             mData.add(new QuestItem("Fix Computer","Computer has been acting up since I called it names and hurt its feelings.","20 October 2019", R.mipmap.ic_launcher_round));
             questRecyclerView.getAdapter().notifyDataSetChanged();
         }
-
         return super.onOptionsItemSelected(item);
     }
 

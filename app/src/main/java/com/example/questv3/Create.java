@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
     private static final String TAG = "Create";
     private EditText title, description;
     private TextView date;
+    int icon;
     QuestBase mData;
     DatabaseReference databaseQuests;
 
@@ -36,6 +38,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         description = findViewById(R.id.editDescription);
         date = findViewById(R.id.date2);
         mData = QuestBase.getInstance();
+        icon = R.mipmap.ic_launcher_round;
 
         databaseQuests = FirebaseDatabase.getInstance().getReference("questLists");
 
@@ -53,6 +56,28 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         });
     }
 
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+        // Check which radio button was clicked.
+        switch (view.getId()) {
+            case R.id.radioBtnRed:
+                if (checked)
+                icon = R.drawable.ic_ball_red;
+                break;
+            case R.id.radioBtnBlue:
+                if (checked)
+                icon = R.drawable.ic_ball_blue;
+                break;
+            case R.id.radioBtnGreen:
+                if (checked)
+                icon = R.drawable.ic_ball_green;
+                break;
+            default:
+                break;
+        }
+    }
+
     public void submitQuest(View view) {
         if(title.getText().toString().isEmpty()) {
             title.setError("Required Field");
@@ -63,7 +88,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
             qTitle = title.getText().toString();
             qDesc = description.getText().toString();
             qDate = date.getText().toString();
-            QuestItem sending = new QuestItem(qTitle, qDesc, qDate, R.mipmap.ic_launcher_round);
+            QuestItem sending = new QuestItem(qTitle, qDesc, qDate, icon);
             mData.add(sending);
 
             //if(mData.getIdentification() != null){
