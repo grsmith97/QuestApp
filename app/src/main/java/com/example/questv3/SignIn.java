@@ -28,7 +28,7 @@ public class SignIn extends AppCompatActivity {
 
     GoogleSignInClient mGoogleSignInClient;
     SignInButton signInButton;
-    Button signOutButton; //FIXME type
+    //Button signOutButton; //FIXME type
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 007;
@@ -45,13 +45,13 @@ public class SignIn extends AppCompatActivity {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        SignInButton signInButton = findViewById(R.id.sign_in_button);
+        signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this); //FIXME: this?
 
-        Button signOutButton = findViewById(R.id.sign_out_button);
+        /*signOutButton = findViewById(R.id.sign_out_button);
         signOutButton.setSize(signOutButton.SIZE_STANDARD);
-        signOutButton.setOnClickListener(this); //FIXME: this?
+        signOutButton.setOnClickListener(this); //FIXME: this?*/
     }
 
     protected void onStart {
@@ -64,27 +64,26 @@ public class SignIn extends AppCompatActivity {
         you might also call GoogleSignInClient.silentSignIn when your app starts.*/
     }
 
-    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sign_in_button:
                 signIn();
                 break;
-            case R.id.sign_out_button:
+            /*case R.id.sign_out_button:
                 signOut();
                 break;
-            // ...
+            // ...*/
         }
     }
 
     private void updateUI(GoogleSignInAccount account) {
         if (account == null) {
             signInButton.setVisibility(View.VISIBLE);
-            signOutButton.setVisibility(View.GONE);
+            //signOutButton.setVisibility(View.GONE);
         }
         else {
             signInButton.setVisibility(View.GONE);
-            signOutButton.setVisibility(View.VISIBLE);
+            //signOutButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -93,7 +92,7 @@ public class SignIn extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void signOut() {
+    /*private void signOut() {
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
@@ -102,7 +101,7 @@ public class SignIn extends AppCompatActivity {
                         updateUI(null);
                     }
                 });
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
