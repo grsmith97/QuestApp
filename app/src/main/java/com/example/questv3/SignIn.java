@@ -30,7 +30,7 @@ public class SignIn extends AppCompatActivity {
     SignInButton signInButton;
     //Button signOutButton; //FIXME type
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = SignIn.class.getSimpleName();
     private static final int RC_SIGN_IN = 007;
 
     @Override
