@@ -45,35 +45,35 @@ public class SignIn extends AppCompatActivity {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+
         signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setOnClickListener(this); //FIXME: this?
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.sign_in_button:
+                        signIn();
+                        break;
+                }
+            }
+        }); //FIXME: this?
+
 
         /*signOutButton = findViewById(R.id.sign_out_button);
         signOutButton.setSize(signOutButton.SIZE_STANDARD);
         signOutButton.setOnClickListener(this); //FIXME: this?*/
     }
 
-    protected void onStart {
+    protected void onStart() {
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
+        super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
         /*Note: If you need to detect changes to a user's auth state that happen outside your app,
         such as access token or ID token revocation, or to perform cross-device sign-in,
         you might also call GoogleSignInClient.silentSignIn when your app starts.*/
-    }
-
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-                break;
-            /*case R.id.sign_out_button:
-                signOut();
-                break;
-            // ...*/
-        }
     }
 
     private void updateUI(GoogleSignInAccount account) {
