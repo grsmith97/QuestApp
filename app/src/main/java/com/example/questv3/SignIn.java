@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class SignIn extends AppCompatActivity {
@@ -22,13 +25,15 @@ public class SignIn extends AppCompatActivity {
     and an ID token for the user with getIdToken. 
     If you need to pass the currently signed-in user to a backend server, 
     send the ID token to your backend server and validate the token on the server.*/
-    
-    @Override
 
     GoogleSignInClient mGoogleSignInClient;
-    //private static final int RC_SIGN_IN = -1; //we need a Request Code for sign-in
-    //private static final String TAG = "sign_in_tag"; //we also need a tag
+    SignInButton signInButton;
+    Button signOutButton; //FIXME type
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int RC_SIGN_IN = 007;
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
@@ -43,6 +48,10 @@ public class SignIn extends AppCompatActivity {
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this); //FIXME: this?
+
+        Button signOutButton = findViewById(R.id.sign_out_button);
+        signOutButton.setSize(signOutButton.SIZE_STANDARD);
+        signOutButton.setOnClickListener(this); //FIXME: this?
     }
 
     protected void onStart {
@@ -53,16 +62,16 @@ public class SignIn extends AppCompatActivity {
         /*Note: If you need to detect changes to a user's auth state that happen outside your app,
         such as access token or ID token revocation, or to perform cross-device sign-in,
         you might also call GoogleSignInClient.silentSignIn when your app starts.*/
-
-
-
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.sign_in_button:
                 signIn();
+                break;
+            case R.id.sign_out_button:
+                signOut();
                 break;
             // ...
         }
@@ -70,10 +79,12 @@ public class SignIn extends AppCompatActivity {
 
     private void updateUI(GoogleSignInAccount account) {
         if (account == null) {
-            //user has not yet signed into the app with google (display button)
+            signInButton.setVisibility(View.VISIBLE);
+            signOutButton.setVisibility(View.GONE);
         }
         else {
-            //don't display google sign in button?
+            signInButton.setVisibility(View.GONE);
+            signOutButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -82,14 +93,24 @@ public class SignIn extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                        updateUI(null);
+                    }
+                });
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
+            // The Task returned from this call is always completed, no need to attach a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
