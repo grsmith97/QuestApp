@@ -3,7 +3,6 @@ package com.example.questv3;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CancellationSignal;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 
@@ -23,6 +25,8 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
     private static final String TAG = "Create";
     private EditText title, description;
     private TextView date;
+    QuestBase mData;
+    DatabaseReference databaseQuests;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +35,9 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         title = findViewById(R.id.editTitle);
         description = findViewById(R.id.editDescription);
         date = findViewById(R.id.date2);
+        mData = QuestBase.getInstance();
+
+        databaseQuests = FirebaseDatabase.getInstance().getReference("questLists");
 
         Calendar c = Calendar.getInstance();
         String currentDateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
@@ -47,15 +54,26 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
     }
 
     public void submitQuest(View view) {
-        Log.d(TAG, "submitQuest: clicked");
-        String qTitle,qDesc,qDate;
-        qTitle = title.getText().toString();
-        qDesc = description.getText().toString();
-        qDate = date.getText().toString();
-        QuestItem sending = new QuestItem(qTitle,qDesc,qDate,R.mipmap.ic_launcher_round);
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("created_quest",sending);
-        startActivity(intent);
+        if(title.getText().toString().isEmpty()) {
+            title.setError("Required Field");
+        }
+        else {
+            Log.d(TAG, "submitQuest: clicked");
+            String qTitle, qDesc, qDate;
+            qTitle = title.getText().toString();
+            qDesc = description.getText().toString();
+            qDate = date.getText().toString();
+            QuestItem sending = new QuestItem(qTitle, qDesc, qDate, R.mipmap.ic_launcher_round);
+            mData.add(sending);
+
+            //if(mData.getIdentification() != null){
+                databaseQuests.child(mData.getIdentification()).setValue(mData.getData());
+            //}
+
+            Intent intent = new Intent(this, MainActivity.class);
+//            intent.putExtra("created_quest", sending); //don't worry about this
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -65,7 +83,6 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String currentDateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
-        TextView tv = findViewById(R.id.date2);
-        tv.setText(currentDateString);
+        date.setText(currentDateString);
     }
 }
