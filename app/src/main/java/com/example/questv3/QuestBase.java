@@ -8,8 +8,6 @@ public class QuestBase {
     private List<QuestItem> mData;
     private List<QuestItem> logData;
 
-
-
     private String identification;
 
     private QuestBase(){
@@ -35,14 +33,19 @@ public class QuestBase {
     public void add(QuestItem questItem){
         mData.add(questItem);
     }
+    public void addLog(QuestItem questItem){
+        logData.add(0,questItem);
+        if(logData.size() > 30){ logData.remove(logData.size()-1);}
+    }
     public void remove(int position){
         mData.remove(position);
     }
-    public void swap(int fromPosition,int toPosition){
-        Collections.swap(mData,fromPosition,toPosition);
-    }
+    public void swap(int fromPosition,int toPosition){ Collections.swap(mData,fromPosition,toPosition); }
     public QuestItem get(int position){
         return mData.get(position);
+    }
+    public QuestItem getLog(int position){
+        return logData.get(position);
     }
     public String getIdentification() {
         return identification;

@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 Intent intent = new Intent(MainActivity.this, Create.class);
                 startActivity(intent);
             }
@@ -99,8 +97,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_log) {
+
         }
         else if(id == R.id.action_sign_in){
             Intent intent = new Intent(this,SignIn.class);
@@ -130,13 +128,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent intent;
 
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
+            intent = new Intent(this,QuestLog.class);
+            startActivity(intent);
         } else if (id == R.id.nav_tools) {
 
         } else if (id == R.id.nav_share) {
@@ -182,21 +180,20 @@ public class MainActivity extends AppCompatActivity
                     break;
                 case ItemTouchHelper.END:
                     temp = mData.get(position);
+                    mData.addLog(temp);
                     mData.remove(position);
                     questAdapter.notifyItemRemoved(position);
-                    Snackbar.make(questRecyclerView,"Quest Completed",Snackbar.LENGTH_LONG)
-                            .setAction("Undo?", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mData.add(temp);
-                            questAdapter.notifyItemInserted(position);
-                        }
-                    }).show();
+//                    Snackbar.make(questRecyclerView,"Quest Completed",Snackbar.LENGTH_LONG)
+////                            .setAction("Undo?", new View.OnClickListener() {
+////                        @Override
+////                        public void onClick(View view) {
+////                            mData.add(temp);
+////                            mData.removeLog(0);
+////                            questAdapter.notifyItemInserted(position);
+////                        }
+////                    }).show();
                     break;
             }
-//            int fromPosition = viewHolder.getAdapterPosition();
-//            mData.remove(fromPosition);
-//            questAdapter.notifyItemRemoved(fromPosition);
         }
     };
 

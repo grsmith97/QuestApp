@@ -15,17 +15,25 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ShowQuestActivity"
+        <activity
+            android:name=".ShowQuestActivity"
             android:label="Quest Details"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".Create"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".SignIn"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Create"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SignIn"
             android:label="Sign In"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".QuestLog"
+            android:label="Completed Quests"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
