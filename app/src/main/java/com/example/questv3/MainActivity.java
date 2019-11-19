@@ -106,6 +106,9 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,SignIn.class);
             startActivity(intent);
         }
+        else if(id == R.id.action_sign_out){
+
+        }
         else if(id == R.id.action_fake_quests){
             mData.add(new QuestItem("Get Groceries","Milk, eggs, bread, lettuce, meat, cheese, rice, seasonings","20 October 2019", R.mipmap.ic_launcher_round));
             mData.add(new QuestItem("Do Laundry","It's been 5 weeks now. Time to finally get it over with...","20 October 2019", R.mipmap.ic_launcher_round));
