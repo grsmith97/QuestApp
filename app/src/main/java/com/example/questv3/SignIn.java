@@ -16,8 +16,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignIn extends AppCompatActivity {
     /*You can also get the user's email address with getEmail, 
@@ -118,6 +119,14 @@ public class SignIn extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("userLists");
+            
+            //next 5 lines could have conditional where we check to see if the ID is already exists
+            User newUser = new User();
+            newUser.setName(account.getDisplayName());
+            newUser.setMail(account.getEmail());
+            newUser.setUserID(databaseUsers.push().getKey());
+            databaseUsers.child(newUser.toString());
 
             // Signed in successfully, show authenticated UI.
             updateUI(account);
