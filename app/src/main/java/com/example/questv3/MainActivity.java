@@ -1,11 +1,15 @@
 package com.example.questv3;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,6 +21,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,8 +38,9 @@ public class MainActivity extends AppCompatActivity
 
     RecyclerView questRecyclerView;
     QuestAdapter questAdapter;
-//    List<QuestItem> mData;
     QuestBase mData;
+    GoogleSignInClient mGoogleSignInClient;
+    int RC_SIGN_IN = 0;
     private static final String TAG = "MainActivity";
 
     @Override
@@ -46,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -54,7 +68,6 @@ public class MainActivity extends AppCompatActivity
 
         // initial view
         questRecyclerView = findViewById(R.id.news_rv);
-//        mData = new ArrayList<>();
         mData = QuestBase.getInstance();
 
         // adapter initial setup
@@ -66,10 +79,112 @@ public class MainActivity extends AppCompatActivity
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(questRecyclerView);
 
-//        if(getIntent().hasExtra("created_quest")){
-//            QuestItem quest = getIntent().getParcelableExtra("created_quest");
-//            mData.add(quest);
-//        }
+        //Google sign in
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//        updateUI(account);
+//    }
+
+    private void updateUI(GoogleSignInAccount account) {
+        if(account != null) {
+            Log.d(TAG, "updateUI: Login success.");
+            mData.setIdentification(account.getId());
+            setUserViewData();
+            Log.d(TAG, "updateUI: ID: "+ mData.getIdentification());
+            invalidateOptionsMenu();
+            mData.setSignedIn(true);
+        }
+        else {
+            Log.d(TAG, "updateUI: Login failure.");
+            resetUserViewData();
+            invalidateOptionsMenu();
+            mData.setSignedIn(false);
+        }
+    }
+
+    private void setUserViewData(){
+        TextView name, email;
+        ImageView imageView;
+
+        name = findViewById(R.id.navName);
+        email = findViewById(R.id.navEmail);
+        imageView = findViewById(R.id.navImageView);
+
+        name.setText(mData.getUserName());
+        email.setText(mData.getUserEmail());
+//        imageView.setImageURI(null);
+//        imageView.setImageURI(mData.getUserPhoto());
+        if(mData.getUserPhoto() != null){
+            Glide.with(imageView.getContext()).load(mData.getUserPhoto()).into(imageView);
+        }
+    }
+
+    private void resetUserViewData(){
+        TextView name, email;
+        ImageView imageView;
+
+        name = findViewById(R.id.navName);
+        email = findViewById(R.id.navEmail);
+        imageView = findViewById(R.id.navImageView);
+
+        name.setText("Sign In");
+        email.setText("Using Google Sign In");
+        imageView.setImageResource(R.mipmap.ic_launcher_round);
+    }
+
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(MainActivity.this,"Signed Out",Toast.LENGTH_SHORT).show();
+                    }
+                });
+        updateUI(null);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            // Signed in successfully, show authenticated UI.
+            mData.setUserEmail(account.getEmail());
+            mData.setUserName(account.getDisplayName());
+            mData.setUserPhoto(account.getPhotoUrl());
+            Log.d(TAG, "handleSignInResult: URI: " + mData.getUserPhoto());
+            updateUI(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            updateUI(null);
+        }
     }
 
     @Override
@@ -86,6 +201,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+//        optionsMenu = menu;
+
+        menu.findItem(R.id.action_sign_in).setVisible(!mData.isSignedIn());
+        menu.findItem(R.id.action_sign_out).setVisible(mData.isSignedIn());
+
         return true;
     }
 
@@ -98,11 +218,10 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sign_out) {
-
+            signOut();
         }
         else if(id == R.id.action_sign_in){
-            Intent intent = new Intent(this,SignIn.class);
-            startActivity(intent);
+            signIn();
         }
         else if(id == R.id.action_fake_quests){
             mData.add(new QuestItem("Get Groceries","Milk, eggs, bread, lettuce, meat, cheese, rice, seasonings","20 October 2019", R.drawable.ic_ball_red));
@@ -134,7 +253,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_tools) {
 
         } else if (id == R.id.nav_share) {
-
+            intent = new Intent(this,Friends.class);
+            startActivity(intent);
         } else if (id == R.id.nav_send) {
 
         }
@@ -149,7 +269,6 @@ public class MainActivity extends AppCompatActivity
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             int fromPosition = viewHolder.getAdapterPosition();
             int toPosition = target.getAdapterPosition();
-//            Collections.swap(mData,fromPosition,toPosition);
             mData.swap(fromPosition,toPosition);
             questRecyclerView.getAdapter().notifyItemMoved(fromPosition,toPosition);
             return false;
@@ -179,15 +298,6 @@ public class MainActivity extends AppCompatActivity
                     mData.addLog(temp);
                     mData.remove(position);
                     questAdapter.notifyItemRemoved(position);
-//                    Snackbar.make(questRecyclerView,"Quest Completed",Snackbar.LENGTH_LONG)
-////                            .setAction("Undo?", new View.OnClickListener() {
-////                        @Override
-////                        public void onClick(View view) {
-////                            mData.add(temp);
-////                            mData.removeLog(0);
-////                            questAdapter.notifyItemInserted(position);
-////                        }
-////                    }).show();
                     break;
             }
         }

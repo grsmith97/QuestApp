@@ -10,22 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Friend"
-            android:label="@string/title_activity_friend"
-            android:parentActivityName=".FriendsList"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.questv3.FriendsList" />
-        </activity>
-        <activity
-            android:name=".FriendsList"
-            android:label="@string/title_activity_friends_list"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.questv3.MainActivity" />
+            android:name=".Friends"
+            android:label="Friends"
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity
             android:name=".MainActivity"
@@ -33,7 +20,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,10 +29,6 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Create"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".SignIn"
-            android:label="Sign In"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".QuestLog"

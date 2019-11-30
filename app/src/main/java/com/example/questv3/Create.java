@@ -91,9 +91,12 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
             QuestItem sending = new QuestItem(qTitle, qDesc, qDate, icon);
             mData.add(sending);
 
-            //if(mData.getIdentification() != null){
-                databaseQuests.child(mData.getIdentification()).setValue(mData.getData());
-            //}
+            if(mData.getIdentification() != null){
+                Log.d(TAG, "submitQuest: Updating firebase with ID: " + mData.getIdentification());
+//                databaseQuests.child(mData.getIdentification()).setValue(mData.getData());
+                String temp = "123456789";
+                databaseQuests.child(temp).setValue(mData.getData());
+            }
 
             Intent intent = new Intent(this, MainActivity.class);
 //            intent.putExtra("created_quest", sending); //don't worry about this
