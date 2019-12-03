@@ -15,4 +15,14 @@
     <string name="menu_send">Send</string>
     <string name="title_activity_friends_list">FriendsList</string>
     <string name="title_activity_friend">Friend</string>
+    
+    <string-array name="Colors">
+        <item>Default</item>
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Yellow</item>
+        <item>Orange</item>
+        <item>Purple</item>
+    </string-array>
 </resources>

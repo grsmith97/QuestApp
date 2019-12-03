@@ -12,15 +12,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendViewHolder> {
 
     Context mContext;
-    private List<FriendItem> mData;
+    private ArrayList<FriendItem> mData;
     private OnFriendListener mOnFriendListener;
 
-    public FriendAdapter(Context mContext, List<FriendItem> mData, OnFriendListener onFriendListener) {
+    public FriendAdapter(Context mContext, ArrayList<FriendItem> mData, OnFriendListener onFriendListener) {
         this.mContext = mContext;
         this.mData = mData;
         this.mOnFriendListener = onFriendListener;
