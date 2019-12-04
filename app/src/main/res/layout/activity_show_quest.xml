@@ -34,4 +34,24 @@
         android:layout_marginRight="15dp"
         android:textColor="@color/content_text_color"/>
 
+    <EditText
+        android:id="@+id/textShareName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="55dip"
+        android:layout_marginTop="70dip"
+        android:layout_marginRight="55dip"
+        android:ems="10"
+        android:hint="Please enter an email to share this quest with"
+        android:inputType="textPersonName"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/buttonShare"
+        android:layout_width="300dip"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="55dip"
+        android:layout_marginTop="15dip"
+        android:text="Share Quest" />
+
 </LinearLayout>
