@@ -129,7 +129,7 @@ ul li:hover a {
 	margin-bottom: 0px;
 }
 .thumbnail {
-	width: 33%;
+	width: 25%;
 	text-align: center;
 	float: left;
 	margin-top: 35px;
@@ -214,11 +214,12 @@ footer .footer_column p {
 }
 .button {
 	width: 200px;
-	margin-top: 40px;
+	/*margin-top: 40px;
 	margin-right: auto;
 	margin-bottom: auto;
 	margin-left: auto;
-	justify-content: center;
+	justify-content: center;*/
+	margin: 0 auto;
 	padding-top: 20px;
 	padding-right: 10px;
 	padding-bottom: 20px;
