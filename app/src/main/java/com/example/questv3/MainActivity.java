@@ -209,6 +209,18 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public void addFakeQuests(){
+        mData.add(new QuestItem("Get Groceries","Milk, eggs, bread, lettuce, meat, cheese, rice, seasonings","Whenever", R.mipmap.ic_launcher_round));
+        mData.add(new QuestItem("Do Laundry","It's been 5 weeks now. Time to finally get it over with...","Whenever", R.mipmap.ic_launcher_round));
+        mData.add(new QuestItem("Move that old couch","Need some help moving that old couch Dad gave me","Whenever", R.drawable.ic_ball_blue));
+        mData.add(new QuestItem("Work Out","25 reps 3 sets Pull Ups\n25 reps 3 sets Push Ups\n25 reps 3 sets Crunches\n25 reps 3 sets Pike Press\n25 reps 3 sets Squats","Today", R.mipmap.ic_launcher_round));
+        mData.add(new QuestItem("Study","Test coming up in CS403 on Wednesday","Dec 8, 2019", R.mipmap.ic_launcher_round));
+        mData.add(new QuestItem("Clean Room","Having a party soon. Need this place cleaned.","Dec 8, 2019", R.mipmap.ic_launcher_round));
+        mData.add(new QuestItem("Call the Apt Office","The AC broke and it's pretty inconvenient. Call them ASAP.","Dec 12, 2019", R.mipmap.ic_launcher_round));
+        mData.add(new QuestItem("PAY RENT","Rent is due on the 15th!!","Dec 15, 2019", R.drawable.ic_ball_red));
+        mData.add(new QuestItem("Fix Computer","Computer has been acting up since I called it names and hurt its feelings.","Dec 16, 2019", R.mipmap.ic_launcher_round));
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -224,15 +236,8 @@ public class MainActivity extends AppCompatActivity
             signIn();
         }
         else if(id == R.id.action_fake_quests){
-            mData.add(new QuestItem("Get Groceries","Milk, eggs, bread, lettuce, meat, cheese, rice, seasonings","20 October 2019", R.drawable.ic_ball_red));
-            mData.add(new QuestItem("Do Laundry","It's been 5 weeks now. Time to finally get it over with...","20 October 2019", R.drawable.ic_ball_blue));
-            mData.add(new QuestItem("Meet with Taylor","She's got time between class, let's hang out.","20 October 2019", R.drawable.ic_ball_green));
-            mData.add(new QuestItem("Work Out","25 reps 3 sets Pull Ups\n25 reps 3 sets Push Ups\n25 reps 3 sets Crunches\n25 reps 3 sets Pike Press\n25 reps 3 sets Squats","20 October 2019", R.mipmap.ic_launcher_round));
-            mData.add(new QuestItem("Study","Test coming up in CS403 on Wednesday","20 October 2019", R.mipmap.ic_launcher_round));
-            mData.add(new QuestItem("Clean Room","No girl is gonna wanna come over to this mess. Better get to it.","20 October 2019", R.mipmap.ic_launcher_round));
-            mData.add(new QuestItem("Call the Apt Office","The AC broke and it's pretty inconvenient. Call them ASAP.","20 October 2019", R.mipmap.ic_launcher_round));
-            mData.add(new QuestItem("Dentist Appt","Thursday at 4:30pm. Get there early to fill out paperwork.","20 October 2019", R.mipmap.ic_launcher_round));
-            mData.add(new QuestItem("Fix Computer","Computer has been acting up since I called it names and hurt its feelings.","20 October 2019", R.mipmap.ic_launcher_round));
+            addFakeQuests();
+            item.setVisible(false);
             questRecyclerView.getAdapter().notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(item);
@@ -251,12 +256,10 @@ public class MainActivity extends AppCompatActivity
             intent = new Intent(this,QuestLog.class);
             startActivity(intent);
         } else if (id == R.id.nav_tools) {
-
+            Toast.makeText(this, "Coming Soon", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_share) {
-            intent = new Intent(this,Friends.class);
+            intent = new Intent(this, Friends.class);
             startActivity(intent);
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

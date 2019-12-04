@@ -59,6 +59,19 @@
             android:layout_marginRight="16dp"
             android:text="TextView"
             android:textColor="@color/content_text_color" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_date_create"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_toStartOf="@+id/tv_date_create"
+            android:layout_toLeftOf="@+id/tv_date_create"
+            android:textColor="@color/content_text_color"
+            android:text="Due: " />
     </RelativeLayout>
 
     <ImageView

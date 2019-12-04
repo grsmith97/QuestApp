@@ -52,7 +52,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
 
         Calendar c = Calendar.getInstance();
         String currentDateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
-        date.setText(currentDateString);
+        date.setText("Whenever");
 
         Button button = findViewById(R.id.btnChooseDate);
         button.setOnClickListener(new View.OnClickListener(){
@@ -75,7 +75,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
             qDesc = description.getEditText().getText().toString();
             qDate = date.getText().toString();
             QuestItem sending = new QuestItem(qTitle, qDesc, qDate, icon);
-            mData.add(sending);
+            mData.add(0,sending);
 
             if(mData.getIdentification() != null){
                 Log.d(TAG, "submitQuest: Updating firebase with ID: " + mData.getIdentification());

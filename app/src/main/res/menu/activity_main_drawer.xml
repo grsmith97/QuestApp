@@ -13,16 +13,12 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Log" />
         <item
-            android:id="@+id/nav_tools"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Groups" />
-        <item
             android:id="@+id/nav_share"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/ic_friends"
             android:title="Friends" />
         <item
-            android:id="@+id/nav_send"
-            android:icon="@drawable/ic_menu_send"
-            android:title="Requests" />
+            android:id="@+id/nav_tools"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Groups" />
     </group>
 </menu>

@@ -40,6 +40,7 @@ public class QuestBase {
     public void add(QuestItem questItem){
         mData.add(questItem);
     }
+    public void add(int index,QuestItem questItem){mData.add(index,questItem);}
     public void addLog(QuestItem questItem){
         logData.add(0,questItem);
         if(logData.size() > 30){ logData.remove(logData.size()-1);}

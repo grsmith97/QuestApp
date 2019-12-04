@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_fake_quests"
+        android:visible="true"
         android:orderInCategory="100"
         android:title="Add Fake Quests"
         app:showAsAction="never" />

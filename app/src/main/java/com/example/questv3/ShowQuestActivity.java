@@ -1,7 +1,10 @@
 package com.example.questv3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -28,5 +31,10 @@ public class ShowQuestActivity extends AppCompatActivity {
             date.setText(quest.getDate());
             Log.d(TAG, "onCreate: " + quest.toString());
         }
+    }
+
+    public void sendQuest(View view) {
+        Intent intent = new Intent(this,Friends.class);
+        startActivity(intent);
     }
 }
