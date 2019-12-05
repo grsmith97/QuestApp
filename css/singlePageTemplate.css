@@ -189,6 +189,12 @@ footer {
 	padding-top: 30px;
 	float: left;
 }
+.footer_column2 {
+	width: 100%;
+	text-align: center;
+	padding-top: 30px;
+	float: left;
+}
 footer .footer_column h3 {
 	color: #B3B3B3;
 	text-align: center;
